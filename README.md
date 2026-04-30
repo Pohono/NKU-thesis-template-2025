@@ -89,7 +89,6 @@ NKU-thesis-template-2020/
 | SimHei.ttf    | 黑体（标题）       |
 | simkai.ttf    | 楷体（封面信息）   |
 | cusongti.ttf  | 粗宋体（校名）     |
-| FZCKW.ttf     | 可能为备用字体     |
 | simfang.ttf   | 仿宋               |
 | times*.ttf    | Times New Roman 英文 |
 
