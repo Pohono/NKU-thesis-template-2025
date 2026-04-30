@@ -1,0 +1,545 @@
+﻿% -*- coding: utf-8 -*-
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{NKThesis}[2025/01/01 Nankai thesis template]
+
+% ---------- 选项处理 ----------
+\DeclareOption{emptydoublepage}{%
+  \def\cleardoublepage{%
+    \clearpage
+    \if@twoside
+      \ifodd\c@page\else
+        \hbox{}\thispagestyle{empty}\newpage
+        \if@twocolumn
+          \hbox{}\thispagestyle{empty}\newpage
+        \fi
+      \fi
+    \fi}}
+\newif\if@NKT@English
+\DeclareOption{English}{\@NKT@Englishtrue}
+\newif\if@NKT@openany
+\DeclareOption{openany}{\@NKT@openanytrue}
+\ProcessOptions\relax
+\if@NKT@openany
+  \@openrightfalse
+  \let\cleardoublepage\clearpage
+\fi
+
+% ---------- 引擎判断与中文支持 ----------
+\RequirePackage{ifxetex}
+\ifxetex\else
+  \ClassError{NKThesis}{XeLaTeX is required}{This template only works with XeLaTeX. Please switch your engine.}
+  \expandafter\endinput
+\fi
+\RequirePackage{xeCJK}
+\RequirePackage{CJKnumb}
+\RequirePackage{graphicx}
+\RequirePackage[bookmarksnumbered]{hyperref}
+
+% ---------- 页面布局 ----------
+\RequirePackage{geometry}
+\RequirePackage{setspace}
+\geometry{a4paper,
+          top=2.54cm, bottom=2.54cm, left=3.17cm, right=3.17cm,
+          headheight=14pt,
+          headsep=0.54cm,
+          footskip=0.79cm}
+
+% ---------- 页眉页脚 ----------
+\RequirePackage{fancyhdr}
+\def\chaptermark#1{%
+  \if@mainmatter
+    \markboth{\chaptername #1}{\chaptername #1}%
+  \else
+    \markboth{#1}{#1}%
+  \fi
+}
+\def\sectionmark#1{}
+\fancypagestyle{centerheadings}{%
+  \fancyhf{}
+  \fancyhead[C]{\zihaowu\songti\leftmark}
+  \fancyfoot[C]{\zihaowu\songti\thepage}
+  \renewcommand{\headrulewidth}{0.5pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \fancyfoot[C]{\zihaowu\songti\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+% ---------- 列表压缩（已移除，可自行添加） ----------
+
+% ---------- 中英文名称 ----------
+\if@NKT@English
+  \def\chaptername{Chapter \arabic{chapter}}
+  \def\contentsname{CONTENTS}
+  \def\appendixnamenonumber{Appendix}
+  \def\nkrefname{References}
+  \def\tablename{Table}
+  \def\figurename{Figure}
+  \def\NKT@proof{Proof}
+\else
+  \def\chaptername{\CJKnumber{\arabic{chapter}}、}
+  \def\contentsname{\zihaosan\heiti 目\quad\quad 录}
+  \def\appendixnamenonumber{附录}
+  \def\appendixname{附\qquad 录}
+  \def\nkrefname{参考文献}
+  \def\tablename{表}
+  \def\figurename{图}
+  \def\listingname{代码}
+  \def\NKT@proof{证明}
+\fi
+\let\bibname\nkrefname
+
+% ---------- 字体设置 ----------
+\setCJKmainfont{SIMSUN}[
+  Path = ./fonts/,
+  Extension = .ttf,
+  BoldFont = SimHei
+]
+\newCJKfontfamily\kaiti{simkai}[
+  Path = ./fonts/,
+  Extension = .ttf,
+  BoldFont = SimHei
+]
+\newCJKfontfamily\cusongti{cusongti}[
+  Path = ./fonts/,
+  Extension = .ttf,
+  BoldFont = SimHei
+]
+\newCJKfontfamily\cukai{simkai}[
+  Path = ./fonts/,
+  Extension = .ttf,
+  BoldFont = SimHei
+]
+
+\setmainfont{times}[
+  Path = ./fonts/,
+  Extension = .ttf,
+  BoldFont = timesbd,
+  ItalicFont = timesi,
+  BoldItalicFont = timesbi,
+  Ligatures=TeX
+]
+\setsansfont{times}[
+  Path = ./fonts/,
+  Extension = .ttf,
+  BoldFont = timesbd,
+  ItalicFont = timesi,
+  BoldItalicFont = timesbi,
+  Ligatures=TeX
+]
+\setmonofont{times}[
+  Path = ./fonts/,
+  Extension = .ttf,
+  BoldFont = timesbd,
+  ItalicFont = timesi,
+  BoldItalicFont = timesbi,
+  Ligatures=TeX
+]
+
+% ---------- 字号定义 ----------
+\def\NKT@definezihao#1#2#3{\def#1{\fontsize{#2}{#3}\selectfont}}
+\NKT@definezihao{\zihaochu}{42}{50}
+\NKT@definezihao{\zihaonankaidaxue}{56}{56}
+\NKT@definezihao{\zihaoxiaochu}{36}{44}
+\NKT@definezihao{\zihaoyi}{26}{32}
+\NKT@definezihao{\zihaoer}{22}{26}
+\NKT@definezihao{\zihaoxiaoer}{18}{22}
+\NKT@definezihao{\zihaosan}{16}{20}
+\NKT@definezihao{\zihaoxiaosan}{15}{18}
+\NKT@definezihao{\zihaosi}{14}{17}
+\NKT@definezihao{\zihaoxiaosi}{12}{14}
+\NKT@definezihao{\zihaowu}{10.5}{12}
+\NKT@definezihao{\zihaoxiaowu}{9}{11}
+\NKT@definezihao{\zihaoliu}{7.875}{9}
+\NKT@definezihao{\zihaoqi}{5.25}{6}
+
+\def\songti{\rmfamily\upshape}
+\def\heiti{\bfseries}
+\let\song\songti\let\hei\heiti
+\punctstyle{quanjiao}
+% ---------- 标题格式 ----------
+\def\overchapterspace{0pt}
+\def\belowchapterspace{18pt}
+\def\chpaterheaderheight{16pt}
+
+\def\chapterformat{\centering\heiti\zihaoxiaosan}
+\def\sectionformat{\heiti\zihaosi}
+\def\subsectionformat{\heiti\zihaoxiaosi}
+\def\subsubsectionformat{\heiti\zihaoxiaosi}
+
+\renewcommand{\thesection}{（\CJKnumber{\arabic{section}}）}
+\renewcommand{\thesubsection}{\arabic{subsection}.}
+\renewcommand{\thesubsubsection}{(\arabic{subsubsection})}
+\def\@seccntformat#1{\csname the#1\endcsname{}}
+
+\def\section{\@startsection{section}{1}{\z@}{6pt}{6pt}{\sectionformat}}
+\def\subsection{\@startsection{subsection}{2}{\z@}{6pt}{6pt}{\subsectionformat}}
+\def\subsubsection{\@startsection{subsubsection}{3}{\z@}{6pt}{6pt}{\subsubsectionformat}}
+
+\def\@sect#1#2#3#4#5#6[#7]#8{%
+  \ifnum #2>\c@secnumdepth \let\@svsec\@empty
+  \else
+    \refstepcounter{#1}%
+    \protected@edef\@svsec{\@seccntformat{#1}\relax}%
+  \fi
+  \@tempskipa #5\relax
+  \ifdim \@tempskipa>\z@
+    \begingroup
+      #6{\@hangfrom{\hskip #3\relax\@svsec}\interlinepenalty \@M #8\@@par}%
+    \endgroup
+    \csname #1mark\endcsname{#7}%
+    \addcontentsline{toc}{#1}{%
+      \ifnum #2>\c@secnumdepth \else \protect\numberline{\csname the#1\endcsname}\fi #7}%
+  \else
+    \def\@svsechd{%
+      #6{\hskip #3\relax\@svsec #8}%
+      \csname #1mark\endcsname{#7}%
+      \addcontentsline{toc}{#1}{%
+        \ifnum #2>\c@secnumdepth \else \protect\numberline{\csname the#1\endcsname}\fi #7}}%
+  \fi
+  \@xsect{#5}}
+
+\def\@chapter[#1]#2{%
+  \ifnum \c@secnumdepth >\m@ne
+    \if@mainmatter
+      \refstepcounter{chapter}%
+      \typeout{\@chapapp\space\thechapter.}%
+      \addcontentsline{toc}{chapter}%
+        {\protect\numberline{\texorpdfstring{\CJKnumber{\thechapter}、}{\thechapter、}}#1}%
+    \else
+      \addcontentsline{toc}{chapter}{#1}%
+    \fi
+  \else
+    \addcontentsline{toc}{chapter}{#1}%
+  \fi
+  \chaptermark{#1}%
+  \addtocontents{lof}{\protect\addvspace{10\p@}}%
+  \addtocontents{lot}{\protect\addvspace{10\p@}}%
+  \if@twocolumn
+    \@topnewpage[\@makechapterhead{#2}]%
+  \else
+    \@makechapterhead{#2}%
+    \@afterheading
+    \@nobreakfalse
+  \fi}
+
+\def\@makechapterhead#1{%
+  \vspace*{\overchapterspace}%
+  \vbox to \chpaterheaderheight{%
+    \vss{\parindent \z@ \centering \normalfont
+          \ifnum \c@secnumdepth >\m@ne \if@mainmatter \chapterformat \CJKnumber{\thechapter}、\fi\fi
+          \interlinepenalty\@M #1\par\nobreak}%
+        \vss}%
+  \vspace*{\belowchapterspace}%
+  \thispagestyle{centerheadings}%
+}
+
+\def\@makeschapterhead#1{%
+  \vspace*{\overchapterspace}%
+  \vbox to \chpaterheaderheight{%
+    \vss{\parindent \z@ \centering \normalfont \interlinepenalty\@M #1\par\nobreak}\vss}%
+  \vspace*{\belowchapterspace}%
+  \thispagestyle{centerheadings}%
+}
+
+\def\@schapter#1{%
+  \if@twocolumn \@topnewpage[\@makeschapterhead{#1}]\else
+    \@makeschapterhead{#1}\@afterheading\@nobreakfalse
+  \fi
+  \phantomsection
+  \addcontentsline{toc}{nochaptoc}{#1}%
+  \markboth{#1}{#1}%
+}
+
+% ---------- 目录 ----------
+\setcounter{tocdepth}{2}
+\renewcommand{\@pnumwidth}{2.5em}
+\renewcommand{\@tocrmarg}{3em}
+\renewcommand{\@dotsep}{0.8}
+
+\renewcommand{\tableofcontents}{%
+  \clearpage
+  \@makeschapterhead{\contentsname}%
+  \markboth{目\quad 录}{目\quad 录}%
+  \phantomsection
+  \addcontentsline{toc}{nochaptoc}{\protect 目\quad 录}%
+  \@starttoc{toc}%
+  \clearpage}
+
+\def\l@chapter#1#2{%
+  \addpenalty{\@secpenalty}\addvspace{6pt plus 2pt}%
+  \begingroup
+    \zihaoxiaosan\songti
+    \@dottedtocline{0}{0em}{1.5em}{#1}{#2}%
+  \endgroup}
+
+\def\l@section#1#2{%
+  \addpenalty{\@secpenalty}\addvspace{3pt plus 2pt}%
+  \begingroup
+    \zihaosi\songti
+    \@dottedtocline{1}{2em}{2.5em}{#1}{#2}%
+  \endgroup}
+
+\def\l@nochaptoc#1#2{%
+  \addpenalty{\@secpenalty}\addvspace{6pt plus 2pt}%
+  \begingroup
+    \zihaoxiaosan\songti
+    \@dottedtocline{0}{0em}{1.5em}{#1}{#2}%
+  \endgroup}
+
+% ---------- 浮动体与图表标题 ----------
+\def\thefigure{\thechapter.\arabic{figure}}
+\def\thetable{\thechapter.\arabic{table}}
+\@addtoreset{figure}{chapter}
+\@addtoreset{table}{chapter}
+\setlength\abovecaptionskip{6\p@}
+\setlength\belowcaptionskip{\p@}
+\def\belowcaptionskip@figure{12\p@}
+\def\belowcaptionskip@table{6\p@}
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{\zihaowu #1\hskip 1em #2}%
+  \ifdim \wd\@tempboxa >\hsize
+    {\zihaowu #1\hskip 1em #2}\par
+  \else
+    \global\@minipagefalse
+    \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\csname belowcaptionskip@\@captype\endcsname
+}
+
+% ---------- 脚注 ----------
+\renewcommand{\thefootnote}{\textcircled{\arabic{footnote}}}
+\@addtoreset{footnote}{page}
+\renewcommand{\@makefntext}[1]{\parindent 1em\noindent%
+    \hb@xt@2.2em{\hss\@thefnmark\quad}{\zihaoxiaowu\normalfont #1}}
+
+% ---------- 无编号章标题 ----------
+\newcommand{\NKTheading}[2]{%
+  \clearpage
+  \@makeschapterhead{\centerline{\zihaosi\heiti #1\quad\quad #2}}%
+  \phantomsection
+  \addcontentsline{toc}{nochaptoc}{\protect #1\quad #2}%
+  \markboth{#1\quad #2}{#1\quad #2}%
+  \vspace*{18pt}%
+}
+
+% ---------- 摘要、关键词、致谢 ----------
+\newenvironment{zhaiyao}{%
+  \NKTheading{摘}{要}
+  \begingroup
+  \setstretch{1.5}%
+  \zihaoxiaosi\songti
+  \setlength{\parindent}{2em}%
+  \noindent\ignorespaces
+}{\par\endgroup}
+
+\newenvironment{abstract}{%
+  \clearpage
+  \@makeschapterhead{\centerline{\bfseries\fontsize{14pt}{17pt}\selectfont Abstract}}%
+  \phantomsection
+  \addcontentsline{toc}{nochaptoc}{\protect Abstract}%
+  \markboth{Abstract}{Abstract}%
+  \vspace*{18pt}%
+  \begingroup
+  \setstretch{1.5}%
+  \fontsize{12}{18}\selectfont
+  \setlength{\parindent}{2em}%
+  \noindent\ignorespaces
+}{\par\endgroup}
+
+\newenvironment{guanjianci}{%
+  \par
+  \begingroup
+  \setstretch{1.5}%
+  \zihaoxiaosi\songti
+  \noindent\textbf{\heiti 关键词：\hspace{0em}}%
+  \ignorespaces
+}{\par\endgroup}
+
+\newenvironment{keywords}{%
+  \par
+  \begingroup
+  \setstretch{1.5}%
+  \zihaoxiaosi
+  \noindent\textbf{Keywords: }%
+  \ignorespaces
+}{\par\endgroup}
+
+\newenvironment{zhixie}{%
+  \NKTheading{致}{谢}
+  \begingroup
+  \setstretch{1.5}%
+  \zihaoxiaosi\songti
+  \setlength{\parindent}{2em}%
+  \noindent\ignorespaces
+}{\par\endgroup}
+
+% ---------- thebibliography 环境 ----------
+\renewenvironment{thebibliography}[1]{%
+  \bibsection
+  \zihaowu\songti
+  \list{\@biblabel{\@arabic\c@enumiv}}%
+       {\settowidth\labelwidth{\@biblabel{#1}}%
+        \leftmargin\labelwidth
+        \advance\leftmargin\labelsep
+        \labelsep 2em
+        \@openbib@code
+        \usecounter{enumiv}%
+        \let\p@enumiv\@empty
+        \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+  \sloppy\clubpenalty4000\widowpenalty4000\sfcode`\.\@m}
+  {\def\@noitemerr{\@latex@warning{Empty `thebibliography' environment}}\endlist}
+
+% ---------- 附录 ----------
+\newcommand{\NKTappendix}{%
+  \NKTheading{附}{录}
+  \zihaoxiaosi\songti
+  \setlength{\parindent}{2em}%
+}
+
+% ---------- 封面与声明 ----------
+\def\NKT@definekey#1#2{\define@key{NKT}{#1}{\expandafter\def\csname NKT@key@#2\endcsname{##1}}}
+\NKT@definekey{论文题目(中文)}{lunwentimuzh}
+\def\NKT@key@lunwentimuzh{}
+\NKT@definekey{论文题目(中文)(第二行)}{titlecntwo}
+\def\NKT@key@titlecntwo{}
+\NKT@definekey{论文题目(英文)}{lunwentimuy}
+\def\NKT@key@lunwentimuy{}
+\NKT@definekey{论文题目(英文)(第二行)}{titleentwo}
+\def\NKT@key@titleentwo{}
+\NKT@definekey{论文题目(英文)(第三行)}{titleenthree}
+\def\NKT@key@titleenthree{}
+\NKT@definekey{学号}{xuehao}
+\NKT@definekey{姓名}{xingming}
+\NKT@definekey{年级}{nianji}
+\NKT@definekey{专业}{zhuanye}
+\NKT@definekey{系别}{xibie}
+\NKT@definekey{学院}{xueyuan}
+\NKT@definekey{指导教师}{zhidaojiaoshi}
+\NKT@definekey{完成日期}{wanchengriqi}
+
+\def\NKT@keyvalue#1{\csname NKT@key@#1\endcsname}
+\def\NKT@tb@item#1#2{#1\hskip 0.5em\underline{\hbox to 115mm{\zihaosan\cukai\NKT@keyvalue{#2}\hfil}}}
+\def\NKT@info@item#1#2{%
+  #1\hskip 0.5em\underline{\hbox to 53mm{\zihaosan\kaiti #2\hfil}}}
+
+\long\def\NKTtitlepage{%
+  \begingroup
+  \clearpage\thispagestyle{empty}\parindent 0em\zihaowu
+  \def\arraystretch{1.5}%
+  \begin{center}
+    \zihaonankaidaxue\baselineskip 1em
+    \textbf{\cusongti\vskip 0.5em 南\hskip 0.5em 开\hskip 0.5em 大\hskip 0.5em 学\\}%
+    {\def\CJKglue{\hskip 0.25em}\zihaoer 本科生毕业论文（设计）}
+    \vskip 48pt\zihaosan\baselineskip 30pt
+    \vbox to 35mm{%
+      \begin{tabular}{lcl}
+        \NKT@tb@item{中文题目：}{lunwentimuzh}\\
+        \ifx\NKT@key@titlecntwo\@empty\else
+          \NKT@tb@item{\hskip 5em}{titlecntwo}\\
+        \fi
+        \NKT@tb@item{外文题目：}{lunwentimuy}\\
+        \ifx\NKT@key@titleentwo\@empty\else
+          \NKT@tb@item{\hskip 5em}{titleentwo}\\
+        \fi
+      \end{tabular}\vss}
+    \vskip 80pt\zihaosan\def\arraystretch{1.25}\tabcolsep 0.2em
+    \begin{tabular}{lcl}
+      \NKT@info@item{ 学\hskip 2em 号：}{\NKT@keyvalue{xuehao}}\\
+      \NKT@info@item{ 姓\hskip 2em 名：}{\NKT@keyvalue{xingming}}\\
+      \NKT@info@item{ 年\hskip 2em 级：}{\NKT@keyvalue{nianji}级}\\
+      \NKT@info@item{ 专\hskip 2em 业：}{\NKT@keyvalue{zhuanye}}\\
+      \NKT@info@item{ 系\hskip 2em 别：}{\NKT@keyvalue{xibie}}\\
+      \NKT@info@item{ 学\hskip 2em 院：}{\NKT@keyvalue{xueyuan}}\\
+      \NKT@info@item{ 指导教师：}{\NKT@keyvalue{zhidaojiaoshi}}\\
+      \NKT@info@item{完成日期：}{\NKT@keyvalue{wanchengriqi}}\\
+    \end{tabular}
+    \vskip 10mm
+  \end{center}%
+  \endgroup
+}
+
+\def\NKT@declaration{%
+  本人郑重声明：所呈交的学位论文，是本人在指导教师指导下，进行研究工作所取得的成果。
+  除文中已经注明引用的内容外，本学位论文的研究成果不包含任何他人创作的、已公开发表
+  或没有公开发表的作品内容。对本论文所涉及的研究工作做出贡献的其他个人和集体，均已
+  在文中以明确方式标明。本学位论文原创性声明的法律责任由本人承担。}
+
+\long\def\NKTdeclaration{%
+  \begingroup
+  \clearpage
+  \thispagestyle{empty}%
+  \vspace*{0pt}
+  {\setstretch{2.0}\centerline{\zihaosan\bfseries 关于南开大学本科生毕业论文（设计）的声明}\par}
+  \vskip 10mm\zihaoxiaosi\songti
+  \setlength{\parindent}{2em}
+  \NKT@declaration
+  \vskip 10mm
+  \hskip 19em 学位论文作者签名：
+  \hskip 25em 年\hskip 2em 月\hskip 2em 日\hbox to 1em{}
+  \vskip 15mm
+  本人声明：该学位论文是本人指导学生完成的研究成果，已经审阅过论文的全部内容，
+  并能够保证题目、关键词、摘要部分中英文内容的一致性和准确性。
+  \vskip 10mm
+  \hskip 17em 学位论文指导教师签名：
+  \hskip 25em 年\hskip 2em 月\hskip 2em 日\hbox to 1em{}
+  \endgroup
+}
+
+\renewcommand{\maketitle}{%
+  \ClassError{NKThesis}{Please use \string\NKTsetup\space instead of \string\maketitle}{}
+}
+
+\def\NKTsetup#1{%
+  \setkeys{NKT}{#1}%
+  \pagestyle{empty}
+  \NKTtitlepage
+  \NKTdeclaration
+  \clearpage
+  \pagestyle{centerheadings}}
+
+% ---------- 全局文档设置 ----------
+\RequirePackage{etoolbox}
+\AtBeginDocument{%
+  % 参考文献标题格式
+  \@ifpackageloaded{natbib}{%
+    \renewcommand{\bibsection}{%
+      \clearpage
+      \phantomsection
+      \addcontentsline{toc}{nochaptoc}{\protect\nkrefname}%
+      \centerline{\zihaoxiaosan\bfseries\nkrefname}%
+      \markboth{\nkrefname}{\nkrefname}%
+      \vspace*{18pt}%
+    }%
+  }{}%
+  % 正文基本字号与行距
+  \fontsize{12}{18}\selectfont
+  \setlength{\parindent}{2em}
+  \@ifpackageloaded{setspace}{%
+    \AtBeginEnvironment{spacing}{\setlength{\parindent}{2em}}%
+  }{}%
+  % PDF 书签禁用命令（因已加载 hyperref）
+  \pdfstringdefDisableCommands{%
+    \let\heiti\@empty
+    \let\songti\@empty
+    \let\zihaosan\@empty
+    \let\zihaoxiaosan\@empty
+    \let\zihaosi\@empty
+    \let\zihaoxiaosi\@empty
+    \let\zihaowu\@empty
+    \let\zihaoxiaowu\@empty
+    \let\CJKnumber\@empty
+  }%
+}
+
+% ---------- 页码格式 ----------
+\def\arabicpagenumber{\def\thepage{\zihaowu \arabic{page}}}
+\def\romannumeralspagenumber{\def\thepage{\zihaowu \Roman{page}}}
+\g@addto@macro\frontmatter{\romannumeralspagenumber}  % 摘要、目录等用大写罗马数字
+\g@addto@macro\mainmatter{\arabicpagenumber}           % 正文用阿拉伯数字
+
+\endinput

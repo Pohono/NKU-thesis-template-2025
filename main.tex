@@ -1,0 +1,257 @@
+﻿% -*- coding: utf-8 -*-
+% ============================================================
+% 南开大学本科生毕业论文（设计）模板 
+% 请使用 XeLaTeX + BibTeX 编译链
+% 本文件演示所有格式要素，并注释相关规范
+% ============================================================
+
+% 文档类选项说明：
+% 12pt     : 基础字号（实际正文由模板控制为小四号）
+% openright: 每章从奇数页开始（页数≥50时要求双面打印可保留）
+% 若论文较短可改用 openany
+\documentclass[12pt,openright]{book}
+
+% ---------- 加载 NKThesis 模板 ----------
+% 可用选项（均为模板内置）：
+%   openany         : 允许章节在任何页开始（与book类的openany类似）
+%   emptydoublepage : 双面模式下空白页完全清空（含页眉页脚）
+%   English         : 英文模式（此时章节名等变为英文）
+\usepackage[openany,emptydoublepage]{NKThesis}
+
+% ---------- 必需/推荐的宏包 ----------
+\usepackage[super,sort&compress,numbers]{natbib} % 参考文献
+\usepackage{amsmath,amssymb}                    % 数学公式
+\usepackage{booktabs}                           % 三线表
+\usepackage{graphicx}                           % 插图
+\usepackage{float}                              % H 参数强制浮动
+\usepackage{multirow,tabularx}                  % 表格增强
+\usepackage{pgfplots, tikz}                     % 绘图
+\usepackage{listings}                           % 代码块
+\usepackage{setspace}                           % 行距
+\usepackage{xcolor}                             % 颜色
+\usepackage{algorithm, algpseudocode}           % 伪代码
+\usepackage{forest}                             % 树图
+
+% 插图路径
+\graphicspath{{figures/}}
+
+% ---------- hyperref 设置 ----------
+\hypersetup{colorlinks=true,
+            pdfborder=0 0 1,
+            citecolor=black,
+            linkcolor=black}
+
+% ---------- 自定义颜色（示例）----------
+\definecolor{corange}{HTML}{FF9666}
+\definecolor{lblue}{HTML}{97FFFF}
+
+% ---------- 定理类环境（示例）----------
+\newtheorem{Theorem}{定理}[chapter]
+\newtheorem{Definition}{定义}[chapter]
+
+% ---------- 算法汉化 --------
+\renewcommand{\algorithmicrequire}{\textbf{输入：}}
+\renewcommand{\algorithmicensure}{\textbf{输出：}}
+\floatname{algorithm}{算法}
+
+% ---------- 参考文献样式 --------
+\bibliographystyle{gbt7714-numerical}
+
+\begin{document}
+
+% ============================================
+% 前置部分：封面、声明、摘要、目录
+% ============================================
+\frontmatter
+
+% ---------- 封面信息 ----------
+% 中文题目支持第二行，英文题目同样支持第二行、第三行
+% 若某一行留空，封面将不会出现多余空行
+\NKTsetup{%
+  论文题目(中文) = 某某某经济学研究：基于某某某分析的实证考察,
+  论文题目(中文)(第二行) = ——以某某某为例,
+  论文题目(英文) = {A Study on the XX Economics: An Empirical Analysis Based on XX},
+  论文题目(英文)(第二行) = {},
+  学号           = 20250001,
+  姓名          = 某某某,
+  年级          = 2025,
+  专业           = 经济学,
+  系别          = 经济学系,
+  学院          = 经济学院,
+  指导教师       = 某某教授,
+  完成日期      = 2025年5月,
+}
+
+% ---------- 中文摘要 ----------
+% 格式要求：摘要二字之间空两格、四号黑体，居中，2倍行距（模板已处理）
+% 内容：小四号宋体，1.5倍行距，首行缩进2字符
+\begin{zhaiyao}
+本研究围绕某某某领域中的某某某问题，运用某某某方法，对某某某现象进行了系统的理论分析与实证检验。研究发现，某某某因素与某某某结果之间存在显著的正向关系，某某某机制在其中发挥了中介作用。此外，异质性分析表明，某某某影响在某某某条件下更为突出。全文共分为五章：第一章为引言，阐述研究背景与意义；第二章为文献综述，梳理相关研究进展；第三章为理论基础，构建分析框架；第四章为实证分析，报告数据来源、模型设定与回归结果；第五章为结论与政策建议。本研究不仅丰富了某某某领域的经验证据，也为相关政策制定提供了参考依据。
+\end{zhaiyao}
+
+% 关键词：顶格写，“关键词”三字小四号黑体，词间用分号分隔
+\begin{guanjianci}
+某某某；某某理论；某某方法；某某数据
+\end{guanjianci}
+
+% ---------- 英文摘要 ----------
+% 应另起一页（模板已保证）
+\begin{abstract}
+This study investigates the XX phenomenon in the field of XX by employing the XX method. The findings reveal a significant positive relationship between XX and XX, mediated by the XX mechanism. Heterogeneity analysis further indicates that the effect is more pronounced under XX conditions. The paper is organized into five chapters: Chapter 1 introduces the background and significance; Chapter 2 reviews the literature; Chapter 3 establishes the theoretical framework; Chapter 4 presents the data, model, and empirical results; Chapter 5 concludes and provides policy recommendations. This study contributes new empirical evidence to the XX field and offers insights for relevant policy design.
+\end{abstract}
+
+\begin{keywords}
+XX; XX Theory; XX Method; XX Data
+\end{keywords}
+
+% ---------- 目录 ----------
+% 目录自动生成，列至二级标题（section），格式符合手册要求
+\tableofcontents
+
+% ============================================
+% 正文部分
+% ============================================
+\mainmatter
+
+% ============================================
+% 第一章：引言
+% ============================================
+\chapter{引言}
+
+\noindent 这里是引言部分的正文内容。根据《南开大学本科毕业论文（设计）格式和打印要求》，正文采用小四号宋体（英文用 Times New Roman），1.5 倍行距，首行缩进两个汉字字符。本模板已自动配置好这些格式。
+
+\section{研究背景}
+某某某问题的研究具有重要的理论价值和现实意义。近年来，国内外学者围绕该问题展开了深入探讨\cite{ref_book_cn}。研究显示，某某某因素对某某某结果的影响存在显著的门槛效应\cite{ref_article_en}。
+
+\section{研究意义}
+本研究的意义主要体现在以下两个方面：第一，……；第二，……。本章以下部分的结构为：第二节介绍研究方法，第三节概述全文结构。
+
+% ============================================
+% 第二章：文献综述
+% ============================================
+\chapter{文献综述}
+
+\section{国外研究现状}
+某某某学者在某某年首次提出了某某理论\cite{ref_conf_en}，随后多位学者从不同角度进行了拓展\cite{ref_book_en}。例如，某某等利用某某方法验证了某某假说\cite{ref_article_en}。
+
+\section{国内研究现状}
+国内研究起步略晚，但发展迅速。某某某（年份）利用某某数据分析了某某问题\cite{ref_thesis_cn}，得出了某某结论。某某和某某（年份）则从某某视角考察了某某现象\cite{ref_article_cn}。
+
+\section{文献评述}
+综上所述，现有研究在某某方面取得了丰硕成果，但仍存在某某不足，这为本文的研究提供了切入点。
+
+% ============================================
+% 第三章：理论基础
+% ============================================
+\chapter{理论基础}
+
+\section{概念界定}
+本文涉及的几个核心概念定义如下：
+\begin{Definition}
+某某某是指……（此处为占位文字）\cite{ref_standard_cn}。
+\end{Definition}
+
+\section{理论模型}
+基于某某某理论，我们构建如下的分析框架。模型的数学表达为：
+\begin{equation}\label{eq:model}
+Y_{it} = \alpha + \beta X_{it} + \gamma Z_{it} + \varepsilon_{it}
+\end{equation}
+其中 $Y_{it}$ 为被解释变量，$X_{it}$ 为核心解释变量，$Z_{it}$ 为控制变量。式\eqref{eq:model} 的推导参见某某文献\cite{ref_patent_cn}。
+
+% ============================================
+% 第四章：实证分析
+% ============================================
+\chapter{实证分析}
+
+\section{数据来源与变量说明}
+本研究的数据来源于某某数据库，涵盖某某年至某某年间的某某指标。主要变量的描述性统计见表\ref{tab:summary}。
+
+\begin{table}[H]
+\centering
+\caption{主要变量的描述性统计}
+\label{tab:summary}
+\begin{tabular}{lcccc}
+\toprule
+变量    & 样本量 & 均值   & 标准差 & 最小值 \\
+\midrule
+被解释变量 $Y$ & 500 & 0.523 & 0.187 & 0.102 \\
+解释变量 $X$   & 500 & 0.689 & 0.245 & 0.056 \\
+控制变量 $Z$   & 500 & 1.234 & 0.412 & 0.345 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{回归结果}
+基准回归结果如表\ref{tab:reg}所示。第(1)列为不加控制变量的结果，第(2)列加入了所有控制变量。结果表明，$X$ 的系数在1\%水平上显著为正，验证了本文的核心假说。
+
+\begin{table}[H]
+\centering
+\caption{基准回归结果}
+\label{tab:reg}
+\begin{tabular}{lcc}
+\toprule
+ & (1) & (2) \\
+\midrule
+$X$ & 0.152*** & 0.138*** \\
+   & (0.023)  & (0.021)  \\
+$Z$ &          & 0.045**  \\
+   &          & (0.019)  \\
+常数项 & 0.321*** & 0.289*** \\
+      & (0.054)  & (0.051)  \\
+\midrule
+$R^2$ & 0.215 & 0.254 \\
+样本量 & 500   & 500   \\
+\bottomrule
+\multicolumn{3}{l}{\footnotesize 注：括号内为稳健标准误；* $p<0.10$, ** $p<0.05$, *** $p<0.01$。}\\
+\end{tabular}
+\end{table}
+
+\section{稳健性检验}
+为了验证结果的可靠性，本文进行了若干稳健性检验，包括更换代理变量、改变样本区间等，所得结果均与基准回归一致。
+
+% 脚注示例
+某某某现象在已有文献中已有讨论\footnote{详细综述可参见某某某（年份）的著作\cite{ref_book_cn}。}，但本文的发现仍提供了新的视角。
+
+\section{算法示例}
+本研究所采用的某某算法流程如下：
+\begin{algorithm}[H]
+\caption{某某算法}
+\begin{algorithmic}[1]
+\Require 数据集 $D$，参数 $\theta$
+\Ensure 聚类结果 $C = \{C_1, C_2, \dots, C_k\}$
+\State 初始化聚类中心
+\For{$t = 1$ to $T$}
+    \State 计算每个样本到中心的 SBD 距离
+    \State 将样本分配到最近的中心
+    \State 更新聚类中心
+\EndFor
+\State \Return $C$
+\end{algorithmic}
+\end{algorithm}
+
+% ============================================
+% 第五章：结论
+% ============================================
+\chapter{结论}
+
+本文通过某某某方法系统分析了某某某问题，得出以下结论：第一，……；第二，……。基于上述结论，我们提出如下政策建议：……。同时，本研究也存在一定局限，例如……，这将是未来研究的方向。
+
+% ============================================
+% 附录
+% ============================================
+\NKTappendix
+这里输入你的附录内容。
+
+% ============================================
+% 参考文献
+% ============================================
+\bibliography{nkthesis}
+
+% ============================================
+% 致谢
+% ============================================
+\begin{zhixie}
+感谢使用此模板。
+\end{zhixie}
+
+\end{document}
