@@ -61,10 +61,10 @@
 ```
 NKU-thesis-template-2020/
 ├── main.tex                # 主文档，填写内容
-├── NKThesis.sty            # 模板样式文件（已包含 hyperref 等）
+├── NKThesis.sty            # 模板样式文件
 ├── nkthesis.bib            # 参考文献数据库
 ├── figures/                # 插图目录
-│   └── nankaidaxue.pdf     # 校名图片（封面使用）
+│   └── nankaidaxue.pdf     # 校名图片
 ├── fonts/                  # 字体文件（必须）
 │   ├── SIMSUN.ttf
 │   ├── simkai.ttf
