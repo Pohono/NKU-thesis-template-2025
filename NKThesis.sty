@@ -335,7 +335,7 @@
   \setstretch{1.5}%
   \zihaoxiaosi\songti
   \setlength{\parindent}{2em}%
-  \noindent\ignorespaces
+  \ignorespaces
 }{\par\endgroup}
 
 \newenvironment{abstract}{%
@@ -349,7 +349,7 @@
   \setstretch{1.5}%
   \fontsize{12}{18}\selectfont
   \setlength{\parindent}{2em}%
-  \noindent\ignorespaces
+  \ignorespaces
 }{\par\endgroup}
 
 \newenvironment{guanjianci}{%
@@ -389,6 +389,7 @@
   \let\zihaoxiaosi\@empty
   \let\zihaowu\@empty
   \let\zihaoxiaowu\@empty
+  \renewcommand{\CJKnumber}[1]{#1}%
 }
 
 % ---------- thebibliography 环境 ----------
