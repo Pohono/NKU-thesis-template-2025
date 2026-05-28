@@ -501,11 +501,15 @@
 
 \def\NKTsetup#1{%
   \setkeys{NKT}{#1}%
-  \pagestyle{empty}
+  \clearpage
+  \pagenumbering{roman}\setcounter{page}{0}%
+  \pagestyle{empty}%
   \NKTtitlepage
   \NKTdeclaration
   \clearpage
-  \pagestyle{centerheadings}}
+  \pagenumbering{Roman}\setcounter{page}{1}%
+  \pagestyle{centerheadings}%
+}
 
 % ---------- 全局文档设置 ----------
 \RequirePackage{etoolbox}
@@ -531,6 +535,10 @@
 
 \def\arabicpagenumber{\def\thepage{\zihaowu \arabic{page}}}
 \def\romannumeralspagenumber{\def\thepage{\zihaowu \Roman{page}}}
-\g@addto@macro\mainmatter{\arabicpagenumber}
+\g@addto@macro\mainmatter{%
+  \clearpage
+  \pagenumbering{arabic}%
+  \setcounter{page}{1}%
+}
 
 \endinput
