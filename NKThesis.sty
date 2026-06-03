@@ -257,7 +257,7 @@
 
 % ---------- 目录 ----------
 \setcounter{tocdepth}{1}
-\renewcommand{\@pnumwidth}{0.5em}
+\renewcommand{\@pnumwidth}{1.2em}
 \renewcommand{\@tocrmarg}{3em}
 \renewcommand{\@dotsep}{0.8}
 
@@ -273,6 +273,7 @@
 \def\l@chapter#1#2{%
   \addpenalty{\@secpenalty}\addvspace{6pt plus 2pt}%
   \begingroup
+    \setstretch{1.5}%
     \zihaoxiaosan\songti
     \@dottedtocline{0}{0em}{2em}{#1}{#2}%
   \endgroup}
@@ -280,6 +281,7 @@
 \def\l@section#1#2{%
   \addpenalty{\@secpenalty}\addvspace{3pt plus 2pt}%
   \begingroup
+    \setstretch{1.5}%
     \zihaosi\songti
     \@dottedtocline{1}{2em}{2.5em}{#1}{#2}%
   \endgroup}
@@ -287,6 +289,7 @@
 \def\l@nochaptoc#1#2{%
   \addpenalty{\@secpenalty}\addvspace{6pt plus 2pt}%
   \begingroup
+    \setstretch{1.5}%
     \zihaoxiaosan\songti
     \@dottedtocline{0}{0em}{1.5em}{#1}{#2}%
   \endgroup}
@@ -419,6 +422,7 @@
 \def\NKT@definekey#1#2{\define@key{NKT}{#1}{\expandafter\def\csname NKT@key@#2\endcsname{##1}}}
 \NKT@definekey{论文题目(中文)}{lunwentimuzh}
 \NKT@definekey{论文题目(中文)(第二行)}{titlecntwo}
+\NKT@definekey{论文题目(中文)(第三行)}{titlecnthree}
 \NKT@definekey{论文题目(英文)}{lunwentimuy}
 \NKT@definekey{论文题目(英文)(第二行)}{titleentwo}
 \NKT@definekey{论文题目(英文)(第三行)}{titleenthree}
@@ -451,10 +455,15 @@
         \ifx\NKT@key@titlecntwo\@empty\else
           \NKT@tb@item{\hskip 5em}{titlecntwo}\\
         \fi
+        \ifx\NKT@key@titlecnthree\@empty\else
+          \NKT@tb@item{\hskip 5em}{titlecnthree}\\
+        \fi
         \NKT@tb@item{外文题目：}{lunwentimuy}\\
         \ifx\NKT@key@titleentwo\@empty\else
           \NKT@tb@item{\hskip 5em}{titleentwo}\\
         \fi
+        \ifx\NKT@key@titleenthree\@empty\else
+          \NKT@tb@item{\hskip 5em}{titleenthree}\\
       \end{tabular}\vss}
     \vskip 80pt\zihaosan\def\arraystretch{1.25}\tabcolsep 0.2em
     \begin{tabular}{lcl}
